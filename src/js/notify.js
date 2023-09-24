@@ -25,4 +25,10 @@ function noMoreResults() {
       });
 }
 
-export { success, wrongRequest, error, noMoreResults };
+function emptyString() {
+  Notify.failure('Please, enter a valid search query.', {
+    timeout: 2000,
+  });
+}
+
+export { success, wrongRequest, error, noMoreResults, emptyString };

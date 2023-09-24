@@ -26,12 +26,12 @@ function getCurrentValue(e) {
   e.preventDefault();
 
   value = e.currentTarget.searchQuery.value.trim();
-  if (value=== "") {
-    Notify.wrongRequest()
-    return;
+  if (value === '') {
+    Notify.emptyLine();
+  } else {
+    createRequest();
   }
-  createRequest()
-}
+};
 
 async function createRequest() {
   if (value !== currentValue) {
