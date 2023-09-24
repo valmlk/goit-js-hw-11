@@ -12,7 +12,12 @@ const perPage = 40;
 let page = 1;
 let currentValue = "";
 let value = "";
-let simpleLightbox = new SimpleLightbox('.gallery__link');
+let simpleLightbox = new SimpleLightbox('.gallery__link', {
+  captions: true,
+  captionsData: 'alt',
+  captionsPosition: 'bottom',
+  captionsDelay: 250,
+});
 let perPageCounter = 0;
 
 searchFormInput.addEventListener("submit", getCurrentValue);
@@ -20,7 +25,11 @@ searchFormInput.addEventListener("submit", getCurrentValue);
 function getCurrentValue(e) {
   e.preventDefault();
 
-  value = e.currentTarget.elements[0].value.trim();
+  value = e.currentTarget.searchQuery.value.trim();
+  if (value=== "") {
+    Notify.wrongRequest()
+    return;
+  }
   createRequest()
 }
 
@@ -51,7 +60,7 @@ async function sendRequest() {
         throw new Error()
     }
 
-    if (!totalHits) {
+    if (!totalHits || value=== "") {
       Notify.wrongRequest()
       gallery.innerHTML = "";
     } else {
@@ -87,8 +96,9 @@ window.scrollBy({
 
 const onloadMore = (data) => {
   const totalPages = Math.ceil(data.totalHits / perPage);
+  console.log(totalPages)
 
-  if (page >= totalPages) {
+  if (page > totalPages) {
     window.removeEventListener('scroll', showLoadMorePage);
     Notify.noMoreResults()
   } else {
@@ -107,4 +117,4 @@ function showLoadMorePage(data) {
   if (checkIfEndOfPage()) {
     onloadMore(data);
   }
-}
+};
