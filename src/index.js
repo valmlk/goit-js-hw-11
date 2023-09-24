@@ -27,7 +27,7 @@ function getCurrentValue(e) {
 
   value = e.currentTarget.searchQuery.value.trim();
   if (value === '') {
-    Notify.emptyLine();
+    Notify.emptyString();
   } else {
     createRequest();
   }
